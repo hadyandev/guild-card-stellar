@@ -4,6 +4,37 @@
 
 A Soulbound Token (SBT) smart contract built on Stellar blockchain using Soroban — inspired by RPG guild membership cards where achievements and identity are permanently bound to their owner.
 
+## 📊 Smart Contract Details
+
+**Network**: Testnet  
+**Contract ID**: `CC5ZPRWAQWJNRZPENHYBE6KQ4ORVQZGIGSTRAQAHMBTDCXS4JHO2KUOL`  
+**Explorer**: [View on Stellar Expert](https://stellar.expert/explorer/testnet/contract/CC5ZPRWAQWJNRZPENHYBE6KQ4ORVQZGIGSTRAQAHMBTDCXS4JHO2KUOL)
+
+### Screenshot
+
+![Contract on Testnet](screenshot.png)
+
+### Contract Functions
+
+| Function | Description |
+|----------|-------------|
+| `mint(owner, guild, member_name)` | Mint new soulbound membership card |
+| `get(owner)` | View full membership card details |
+| `add_exp(owner, amount)` | Add experience points (auto rank up) |
+| `get_exp(owner)` | Get current experience points |
+| `get_rank(owner)` | Get current rank (C/B/A/S) |
+
+### Rank Progression
+
+| Rank | Required EXP | Description |
+|------|--------------|-------------|
+| C | 0-999 | Novice - Starting rank |
+| B | 1,000-4,999 | Adept - Rising member |
+| A | 5,000-9,999 | Master - Seasoned member |
+| S | 10,000+ | Legend - Elite status |
+
+---
+
 ## 🎯 Project Overview
 
 Guild Card is a **non-transferable membership token** (Soulbound Token) that represents exclusive membership in a guild or organization on the Stellar blockchain.
@@ -99,37 +130,13 @@ stellar contract invoke \
   --owner YOUR_ADDRESS
 ```
 
-## 📊 Smart Contract Details
-
-**Testnet Contract ID**:
-```
-C... (add after deploy)
-```
-
-**Contract Functions**:
-| Function | Description |
-|----------|-------------|
-| `mint(owner, guild, member_name)` | Mint new soulbound membership card |
-| `get(owner)` | View full membership card details |
-| `add_exp(owner, amount)` | Add experience points (auto rank up) |
-| `get_exp(owner)` | Get current experience points |
-| `get_rank(owner)` | Get current rank (C/B/A/S) |
-
-### Rank Progression
-
-| Rank | Required EXP | Description |
-|------|--------------|-------------|
-| C | 0-999 | Novice - Starting rank |
-| B | 1,000-4,999 | Adept - Rising member |
-| A | 5,000-9,999 | Master - Seasoned member |
-| S | 10,000+ | Legend - Elite status |
-
 ## 📁 Project Structure
 
 ```
 stellar-sbt/
 ├── README.md                # This file
 ├── Cargo.toml               # Workspace config
+├── screenshot.png           # Testnet screenshot
 └── contracts/
     └── guild_card/
         ├── Cargo.toml
