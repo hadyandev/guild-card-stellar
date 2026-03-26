@@ -1,118 +1,152 @@
-# Stellar Notes DApp
+# 🏴‍☠️ Guild Card - Stellar Soulbound Token
 
-**Stellar Notes DApp** - Blockchain-Based Decentralized Note-Taking System
+> *"Where brave souls find their place among legends"*
 
-## Project Description
+A Soulbound Token (SBT) smart contract built on Stellar blockchain using Soroban — inspired by RPG guild membership cards where achievements and identity are permanently bound to their owner.
 
-Stellar Notes DApp is a decentralized smart contract solution built on the Stellar blockchain using Soroban SDK. It provides a secure, immutable platform for managing personal notes directly on the blockchain. The contract ensures that your data is stored transparently and is only manageable through predefined smart contract functions, eliminating reliance on centralized database providers.
+## 🎯 Project Overview
 
-The system allows users to create, view, and delete notes, leveraging the efficiency and security of the Stellar network. Each note is uniquely identified and stored within the contract's instance storage, ensuring data persistence and reliability.
+Guild Card is a **non-transferable membership token** (Soulbound Token) that represents exclusive membership in a guild or organization on the Stellar blockchain.
 
-## Project Vision
+### Key Features
 
-Our vision is to revolutionize personal productivity in the digital age by:
+| Feature | Description |
+|---------|-------------|
+| 🎫 **Soulbound Membership** | Non-transferable token bound to wallet address |
+| 🏆 **Rank System** | Auto-leveling based on experience points (C → B → A → S rank) |
+| 📈 **EXP Accumulation** | Earn experience through activities |
+| 🔒 **On-chain Identity** | Immutable membership record stored on Stellar |
 
-- **Decentralizing Data**: Moving note-taking from centralized servers to a global, distributed blockchain
-- **Ensuring Ownership**: Empowering users to have complete control and ownership over their digital thoughts and information
-- **Guaranteeing Immutability**: Providing a permanent, tamper-proof record of notes that cannot be altered or deleted by third parties
-- **Enhancing Privacy**: Leveraging blockchain security to protect personal information from unauthorized access
-- **Building Trustless Systems**: Creating a platform where data integrity is guaranteed by code, not by company promises
+## 📝 Use Cases
 
-We envision a future where digital information is truly personal and sovereign, empowering individuals with complete autonomy over their digital assets.
+1. **Community Memberships** — Exclusive access to DAOs, clubs, or gaming guilds
+2. **Achievement Badges** — Proof of participation/attendance that cannot be sold
+3. **Certifications** — Educational credentials or workshop completions
+4. **Gaming Guilds** — RPG-style rank progression (inspired by anime guild systems)
 
-## Key Features
+## 🛠️ Technology Stack
 
-### 1. **Simple Note Creation**
+- **Blockchain**: Stellar (Soroban smart contracts)
+- **Language**: Rust
+- **SDK**: Soroban SDK
+- **Network**: Testnet
 
-- Create notes with just one function call
-- Specify title and content for each note
-- Automated ID generation for unique identification
-- Persistent storage on the Stellar blockchain
+## 🚀 Quick Start
 
-### 2. **Efficient Data Retrieval**
+### Prerequisites
 
-- Fetch all stored notes in a single call
-- Structured data representation for easy frontend integration
-- Quick access to your entire note collection
-- Real-time synchronization with the blockchain state
+- Rust installed: `curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh`
+- Stellar CLI: `cargo install --locked stellar-cli`
+- Testnet funded wallet
 
-### 3. **Secure Deletion**
+### Build & Deploy
 
-- Remove specific notes using their unique IDs
-- Permanent removal from the contract storage
-- Clean and efficient storage management
-- Immediate update of the note list after deletion
+```bash
+# 1. Build WASM
+cd contracts/guild_card
+cargo build --target wasm32v1-none --release
 
-### 4. **Transparency and Security**
+# 2. Generate testnet wallet
+stellar keys generate guild-card --network testnet --fund
 
-- View all note activities on the blockchain
-- Blockchain-based verification of all storage actions
-- Immutable records of note creation and deletion
-- Protected against unauthorized modifications
+# 3. Deploy to testnet
+stellar contract deploy \
+  --wasm target/wasm32v1-none/release/guild_card.wasm \
+  --source-account guild-card \
+  --network testnet
+```
 
-### 5. **Stellar Network Integration**
+### Interact with Contract
 
-- Leverages the high speed and low cost of Stellar
-- Built using the modern Soroban Smart Contract SDK
-- Scalable architecture for growing note collections
-- Interoperable with other Stellar-based services
+```bash
+# Mint your guild membership card
+stellar contract invoke \
+  --id CONTRACT_ID \
+  --source-account guild-card \
+  --network testnet \
+  -- \
+  mint \
+  --owner YOUR_ADDRESS \
+  --guild "Straw Hats" \
+  --member_name "your_name"
 
-## Contract Details
+# Check your guild card
+stellar contract invoke \
+  --id CONTRACT_ID \
+  --source-account guild-card \
+  --network testnet \
+  -- \
+  get \
+  --owner YOUR_ADDRESS
 
-- Contract Address: CBLU4IUASQ4WUMOXBFLZRSBBLILGOH33GS4LUPKFBCCCMJCDQNMF7G2M
-  ![alt text](screenshot.png)
+# Add experience points (level up!)
+stellar contract invoke \
+  --id CONTRACT_ID \
+  --source-account guild-card \
+  --network testnet \
+  -- \
+  add_exp \
+  --owner YOUR_ADDRESS \
+  --amount 100
 
-## Future Scope
+# Check your current rank
+stellar contract invoke \
+  --id CONTRACT_ID \
+  --source-account guild-card \
+  --network testnet \
+  -- \
+  get_rank \
+  --owner YOUR_ADDRESS
+```
 
-### Short-Term Enhancements
+## 📊 Smart Contract Details
 
-1. **Note Encryption**: Support for end-to-end encryption of note content for enhanced privacy
-2. **Category Management**: Add tags and categories to organize notes efficiently
-3. **Rich Text Support**: Extend support beyond plain text to include Markdown and formatted content
-4. **Search Functionality**: Implement advanced search filters for large note collections
+**Testnet Contract ID**:
+```
+C... (add after deploy)
+```
 
-### Medium-Term Development
+**Contract Functions**:
+| Function | Description |
+|----------|-------------|
+| `mint(owner, guild, member_name)` | Mint new soulbound membership card |
+| `get(owner)` | View full membership card details |
+| `add_exp(owner, amount)` | Add experience points (auto rank up) |
+| `get_exp(owner)` | Get current experience points |
+| `get_rank(owner)` | Get current rank (C/B/A/S) |
 
-5. **Collaborative Notes**: Implement multi-signature requirements for shared or collaborative note-taking
-   - Shared access for multiple addresses
-   - Permission-based editing and viewing
-   - Version history tracking
-6. **Notification System**: Off-chain bridge to alert users of new updates or shared notes
-7. **Asset Attachment**: Capability to attach digital assets or tokens to specific notes
-8. **Inter-Contract Integration**: Allow other smart contracts to interact with and store data in the notes contract
+### Rank Progression
 
-### Long-Term Vision
+| Rank | Required EXP | Description |
+|------|--------------|-------------|
+| C | 0-999 | Novice - Starting rank |
+| B | 1,000-4,999 | Adept - Rising member |
+| A | 5,000-9,999 | Master - Seasoned member |
+| S | 10,000+ | Legend - Elite status |
 
-9. **Cross-Chain Synchronization**: Extend note storage to multiple blockchain networks
-10. **Decentralized UI Hosting**: Host the frontend on IPFS or similar decentralized platforms
-11. **AI-Powered Summarization**: Optional integration with AI to help users summarize their notes
-12. **Privacy Layers**: Implement zero-knowledge proofs for completely private note content
-13. **DAO Governance**: Community-driven protocol improvements and feature prioritization
-14. **Identity Management**: Integration with decentralized identity (DID) systems for user management
+## 📁 Project Structure
 
-### Enterprise Features
+```
+stellar-sbt/
+├── README.md                # This file
+├── Cargo.toml               # Workspace config
+└── contracts/
+    └── guild_card/
+        ├── Cargo.toml
+        └── src/
+            └── lib.rs       # Smart contract code
+```
 
-15. **Corporate Documentation**: Adapt the system for secure corporate record-keeping
-16. **Immutable Logging**: Create time-locked logs for audit purposes
-17. **Automated Reporting**: Automatic note triggers for periodic reporting
-18. **Multi-Language Support**: Expand accessibility with internationalization
+## 🎭 Anime Inspiration
+
+This project draws inspiration from guild systems in anime like **One Piece** (Straw Hats), **Fairy Tail**, and **Solo Leveling** — where membership is a badge of honor, not a tradable commodity.
+
+## 🙏 Credits
+
+Built for **Rise In x Stellar Workshop**
+
+Developer: [@hadyandev](https://github.com/hadyandev)
 
 ---
 
-## Technical Requirements
-
-- Soroban SDK
-- Rust programming language
-- Stellar blockchain network
-
-## Getting Started
-
-Deploy the smart contract to Stellar's Soroban network and interact with it using the three main functions:
-
-- `create_note()` - Create a new note with a title and content
-- `get_notes()` - Retrieve all stored notes from the contract
-- `delete_note()` - Remove a specific note by its ID
-
----
-
-**Stellar Notes DApp** - Securing Your Thoughts on the Blockchain
+**Q.E.D. 💠**
